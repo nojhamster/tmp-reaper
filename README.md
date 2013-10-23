@@ -35,9 +35,9 @@ var reaper = new Reaper(options);
 
 #### Options
 
-* `threshold` {integer} maximum lifetime of files (default to `7days`).
+* `threshold` {string | integer} maximum lifetime of files (default to `7days`).
 * `recursive` {boolean} reap subfolders (default to `false`).
-* `every` {integer} period of time between each files check. If not provided, directories will be reaped only once.
+* `every` {string | integer} period of time between each files check. If not provided, directories will be reaped only once.
 
 Time format can be either a number of milliseconds or a string.
 String format is pretty permissive as it only extract numbers followed by a text, with anything in-between.
