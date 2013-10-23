@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * TmpReaper supplies methods to reap old files from directories
+ * TmpReaper provides methods to reap old files from directories
  */
 
 var fs           = require('fs');
