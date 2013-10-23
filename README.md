@@ -7,14 +7,14 @@ Reap old files from directories
 
 _will be added when published on npm_
 
-## Example
+## Usage
 
 ```javascript
   var Reaper = require('tmp-reaper');
 
   var reaper = new Reaper({
-    threshold: 2000,
-    recursive: true
+    threshold: '1 day',
+    every: '1 hour'
   });
   
   reaper.watch('/some/directory').start();
@@ -37,10 +37,28 @@ var reaper = new Reaper(options);
 * `recursive` {boolean} reap subfolders (default to `false`).
 * `every` {integer} period of time between each files check. If not provided, directories will be reaped only once.
 
+Time format can be either a number of milliseconds or a string.
+String format is pretty permissive as it only extract numbers followed by a text, with anything in-between.
+
+Time unit | format
+----------|-------
+second    | s, sec, second, seconds
+minute    | m, min, minute, minutes
+hour      | h, hour, hours
+day       | d, day, days
+
+Example :
+```javascript
+var options = {
+  threshold: '7 day and 2.5 hours',
+  every: '1h20m30s'
+}
+```
+
 #### Events
 
-* `delete(filepath, stats)` When a file has been deleted.
-* `error(err)` When an error occurs.
+* `delete(filepath, stats)` when a file has been deleted.
+* `error(err)` when an error occurs.
 
 #### Methods
 
@@ -48,9 +66,3 @@ var reaper = new Reaper(options);
 * `unwatch(dir)` stop watching the given directory.
 * `start()` start reaping.
 * `stop()` stop reaping.
-
-### Time format
-Can be a number of milliseconds or a string.
-Strings are pretty permissive as they just need to contain numbers followed by a text.
-
-_will add details soon_
