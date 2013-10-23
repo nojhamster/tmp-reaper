@@ -1,0 +1,24 @@
+{
+  "name": "tmp-reaper",
+  "version": "0.0.1",
+  "description": "Reap old files from directories",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nojhamster/tmp-reaper.git"
+  },
+  "keywords": [
+    "reap",
+    "reaper",
+    "tmp",
+    "temporary"
+  ],
+  "author": "Yannick Schurter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nojhamster/tmp-reaper/issues"
+  }
+}
