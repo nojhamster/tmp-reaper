@@ -5,7 +5,9 @@ Reap old files from directories
 
 ## Installation
 
-_will be added when published on npm_
+```
+npm install tmp-reaper
+```
 
 ## Usage
 
