@@ -21,7 +21,7 @@ var TmpReaper = function (options) {
   var self       = this;
   options        = options || {};
   self.recursive = options.recursive || false;
-  self.threshold = ms(options.threshold) || 1000 * 60 * 60 * 24 * 7;
+  self.threshold = ms(options.threshold || '7days');
   self.cycle     = ms(options.every);
   self.dirs      = [];
 
