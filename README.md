@@ -35,8 +35,9 @@ var reaper = new Reaper(options);
 
 #### Options
 
-* `threshold` {string | integer} maximum lifetime of files (default to `7days`).
-* `recursive` {boolean} reap subfolders (default to `false`).
+* `threshold` {string | integer} maximum lifetime of files (defaults to `7days`).
+* `recursive` {boolean} reap files in subdirectories (defaults to `false`).
+* `keepEmptyDirs` {boolean} preserve empty subdirectories (defaults to `false`).
 * `every` {string | integer} period of time between each files check. If not provided, directories will be reaped only once.
 
 Time format can be either a number of milliseconds or a string.
