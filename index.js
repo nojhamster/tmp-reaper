@@ -18,12 +18,13 @@ var ms           = require('./ms.js');
  *                                        if not set, reap only once
  */
 var TmpReaper = function (options) {
-  var self       = this;
-  options        = options || {};
-  self.recursive = options.recursive || false;
-  self.threshold = ms(options.threshold || '7days');
-  self.cycle     = ms(options.every);
-  self.dirs      = [];
+  var self           = this;
+  options            = options || {};
+  self.recursive     = options.recursive || false;
+  self.keepEmptyDirs = options.keepEmptyDirs || false;
+  self.threshold     = ms(options.threshold || '7days');
+  self.cycle         = ms(options.every);
+  self.dirs          = [];
 
   /**
    * Reap old files from a directory
@@ -62,7 +63,7 @@ var TmpReaper = function (options) {
           if (stats.isDirectory()) {
             if (self.recursive) {
               reapDir(file, function (empty) {
-                if (empty) {
+                if (empty && !self.keepEmptyDirs) {
                   fs.rmdir(file, function (err) {
                     if (err) {
                       self.emit('error', err);
