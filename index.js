@@ -16,6 +16,7 @@ var ms           = require('./ms.js');
  *                         -> recursive : if set to true, will reap files in subfolders
  *                         -> every     : period of time between each reap session
  *                                        if not set, reap only once
+ *                         -> keepEmptyDirs : if set to true, will keep dir even when it's empty
  */
 var TmpReaper = function (options) {
   var self           = this;
