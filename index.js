@@ -26,7 +26,7 @@ var TmpReaper = function (options) {
   self.threshold     = ms(options.threshold || '7days');
   self.cycle         = ms(options.every);
   self.dirs          = [];
-  self.filetime      = options.filetime === 'atime' ? 'atime':'mtime';
+  self.filetime      = /^[acm]time$/i.test(options.filetime) ? options.filetime.toLowerCase() : 'mtime';
 
   /**
    * Reap old files from a directory
