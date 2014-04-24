@@ -1,6 +1,6 @@
 {
   "name": "tmp-reaper",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Reap old files from directories",
   "main": "index.js",
   "scripts": {
