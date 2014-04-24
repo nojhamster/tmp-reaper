@@ -13,6 +13,7 @@ module.exports = function toMs(str) {
   if (typeof str != 'string') { return str; }
   if (/^[0-9]+$/.test(str))   { return parseInt(str, 10); }
 
+  str     = str.toLowerCase();
   var ms  = 0;
   var reg = /([0-9]+(?:\.[0-9]+)?)[ ]*?([a-z]+)/gi;
   var match;
@@ -25,7 +26,7 @@ module.exports = function toMs(str) {
 
   match = reg.exec(str);
   while (match) {
-    switch (match[2].toLowerCase()) {
+    switch (match[2]) {
     case "s":
     case "sec":
     case "second":
