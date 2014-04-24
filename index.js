@@ -26,6 +26,7 @@ var TmpReaper = function (options) {
   self.threshold     = ms(options.threshold || '7days');
   self.cycle         = ms(options.every);
   self.dirs          = [];
+  self.filetime      = options.filetime === 'atime' ? 'atime':'mtime';
 
   /**
    * Reap old files from a directory
@@ -80,7 +81,7 @@ var TmpReaper = function (options) {
               processNextFile();
             }
           } else {
-            var diff = new Date() - stats.mtime;
+            var diff = new Date() - stats[self.filetime];
 
             if (diff > self.threshold) {
               fs.unlink(file, function (err) {
