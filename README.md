@@ -40,6 +40,7 @@ var reaper = new Reaper(options);
 * `keepEmptyDirs` {boolean} preserve empty subdirectories (defaults to `false`).
 * `every` {string | integer} period of time between each files check. If not provided, directories will be reaped only once.
 * `filetime` {string} filetime to use as reference. Can be `atime`, `mtime` or `ctime`. (defaults to `mtime`)                                        
+* `pattern` {string | regex} pattern that the filename has to match, else it will be skipped (optional)
 
 Time format can be either a number of milliseconds or a string.
 String format is pretty permissive as it only extract numbers followed by a text, with anything in-between.

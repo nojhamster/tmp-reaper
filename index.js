@@ -19,6 +19,7 @@ var ms           = require('./ms.js');
  *                                            can be : atime, mtime or ctime
  *                         -> every         : period of time between each reap session
  *                                            if not set, reap only once
+ *                         -> pattern       : only reap files matching the pattern
  */
 var TmpReaper = function (options) {
   options            = options || {};
@@ -28,6 +29,14 @@ var TmpReaper = function (options) {
   this.cycle         = ms(options.every);
   this.dirs          = [];
   this.filetime      = /^[acm]time$/i.test(options.filetime) ? options.filetime.toLowerCase() : 'mtime';
+
+  if (typeof options.pattern === "string") {
+    this.pattern = new RegExp(options.pattern);
+  } else if(typeof options.pattern === "object") {
+    this.pattern = options.pattern;
+  } else {
+    this.pattern = false;
+  }
 };
 
 util.inherits(TmpReaper, EventEmitter);
@@ -60,6 +69,7 @@ TmpReaper.prototype.reapDir = function (dir, callback) {
         callback(nbFiles === 0);
         return;
       }
+
       var file = path.join(dir, f);
 
       fs.stat(file, function (err, stats) {
@@ -87,6 +97,11 @@ TmpReaper.prototype.reapDir = function (dir, callback) {
             processNextFile();
           }
         } else {
+          if (self.pattern !== false && !self.pattern.test(f)) {
+            processNextFile();
+            return;
+          }
+
           var diff = new Date() - stats[self.filetime];
 
           if (diff > self.threshold) {
