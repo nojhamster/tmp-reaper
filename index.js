@@ -53,76 +53,58 @@ TmpReaper.prototype.reapDir = function (dir, callback) {
   fs.readdir(dir, function (err, files) {
     if (err) {
       self.emit('error', err);
-      return;
+      return callback(false);
     }
 
     var nbFiles = files.length;
 
-    if (nbFiles === 0) {
-      callback(true);
-      return;
-    }
+    if (nbFiles === 0) { return callback(true); }
 
-    var processNextFile = function () {
+    (function processNextFile() {
       var f = files.pop();
-      if (!f) {
-        callback(nbFiles === 0);
-        return;
-      }
+      if (!f) { return callback(nbFiles === 0); }
 
       var file = path.join(dir, f);
 
       fs.stat(file, function (err, stats) {
         if (err) {
           self.emit('error', err);
-          processNextFile();
-          return;
+          return processNextFile();
         }
+
         if (stats.isDirectory()) {
-          if (self.recursive) {
-            self.reapDir(file, function (empty) {
-              if (empty && !self.keepEmptyDirs) {
-                fs.rmdir(file, function (err) {
-                  if (err) {
-                    self.emit('error', err);
-                    processNextFile();
-                    return;
-                  }
-                  nbFiles--;
-                  processNextFile();
-                });
-              }
+          if (!self.recursive) { return processNextFile(); }
+
+          self.reapDir(file, function (empty) {
+            if (!empty || self.keepEmptyDirs) { return processNextFile(); }
+
+            fs.rmdir(file, function (err) {
+              if (err) { self.emit('error', err); }
+              else     { nbFiles--; }
+              processNextFile();
             });
-          } else {
-            processNextFile();
-          }
+          });
         } else {
           if (self.pattern !== false && !self.pattern.test(f)) {
-            processNextFile();
-            return;
+            return processNextFile();
           }
 
           var diff = new Date() - stats[self.filetime];
 
-          if (diff > self.threshold) {
-            fs.unlink(file, function (err) {
-              if (err) {
-                self.emit('error', err);
-                processNextFile();
-                return;
-              }
-              self.emit('delete', file, stats);
-              nbFiles--;
-              processNextFile();
-            });
-          } else {
+          if (diff < self.threshold) { return processNextFile(); }
+
+          fs.unlink(file, function (err) {
+            if (err) {
+              self.emit('error', err);
+              return processNextFile();
+            }
+            self.emit('delete', file, stats);
+            nbFiles--;
             processNextFile();
-          }
+          });
         }
       });
-    };
-
-    processNextFile();
+    })();
   });
 
   return self;
@@ -136,10 +118,7 @@ TmpReaper.prototype.reap = function () {
 
   self.dirs.forEach(function (dir) {
     fs.stat(dir, function (err, stats) {
-      if (err) {
-        self.emit('error', err);
-        return;
-      }
+      if (err) { return self.emit('error', err); }
 
       if (stats.isDirectory()) {
         self.reapDir(dir);

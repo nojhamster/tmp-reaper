@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4
+- Fix reaping process stopping on first non-empty directory or if keepEmptyDir is activated
+- Fix callback not called if a directory can not be read
+
 ## 0.0.3
 - Add option filetime (atime, mtime, ctime)
 - Change attributes for prototypes
