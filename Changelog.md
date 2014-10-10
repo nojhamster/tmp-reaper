@@ -5,10 +5,10 @@
 - Fix callback not called if a directory can not be read
 
 ## 0.0.4
-- Add support for patterns (thanks RaimundKaemmerer)
+- Add support for patterns **thanks RaimundKaemmerer**
 
 ## 0.0.3
-- Add option filetime : atime, mtime, ctime (thanks dlin-me)
+- Add option filetime : atime, mtime, ctime **thanks dlin-me**
 - Change attributes for prototypes
 
 ## 0.0.2
